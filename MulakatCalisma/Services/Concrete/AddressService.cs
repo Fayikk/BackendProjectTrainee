@@ -12,10 +12,12 @@ namespace MulakatCalisma.Services.Concrete
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        public AddressService(ApplicationDbContext context, IMapper mapper)
+        private readonly IAuthService _authService;
+        public AddressService(ApplicationDbContext context, IMapper mapper, IAuthService authService)
         {
             _mapper = mapper;
             _context = context;
+            _authService = authService;
         }
 
         public async Task<ServiceResponse<AddressDTO>> AddAddress(AddressDTO address)
@@ -45,6 +47,26 @@ namespace MulakatCalisma.Services.Concrete
                 };
             }
 
+        }
+
+        public async Task<ServiceResponse<AddressDTO>> GetByAddress()
+        {
+            var result = await _context.Addresses.FirstOrDefaultAsync(x => x.Id == _authService.GetUserId());
+            var response = _mapper.Map<Address, AddressDTO>(result);
+            if (result != null)
+            {
+                return new ServiceResponse<AddressDTO>
+                {
+                    Data = response,
+                    Success = true,
+                    Message = response.FirstName,
+                };
+            }
+            return new ServiceResponse<AddressDTO>
+            {
+                Success = false,
+                Message = "You dont have address the system",
+            };
         }
     }
 }

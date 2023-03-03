@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MulakatCalisma.DTO;
 using MulakatCalisma.Entity;
@@ -30,5 +31,11 @@ namespace MulakatCalisma.Controllers
             return BadRequest(address);
         }
 
+        [HttpGet,Authorize]
+        public async Task<ActionResult<ServiceResponse<AddressDTO>>> GetAddressByUser()
+        {
+            var result = await _addressService.GetByAddress();
+            return Ok(result);  
+        }
     }
 }
