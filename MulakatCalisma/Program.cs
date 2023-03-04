@@ -22,6 +22,7 @@ builder.Services.AddScoped<IOrderService,OrderService>();
 builder.Services.AddScoped<IAddressService,AddressService>();
 builder.Services.AddScoped<IPaymentService,PaymentService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IBasketService,BasketService>(); 
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -70,6 +71,11 @@ builder.Services.AddSwaggerGen(c => {
     });
 });
 
+builder.Services.AddCors(o => o.AddPolicy("Assos", builder =>
+{
+    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
+
 
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
@@ -84,7 +90,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("Assos");
 app.MapControllers();
 
 app.Run();

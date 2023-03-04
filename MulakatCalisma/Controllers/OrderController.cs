@@ -37,5 +37,16 @@ namespace MulakatCalisma.Controllers
             var result = await _orderService.GetProductByUser();
             return Ok(result);
         }
+
+
+        [HttpPost("Store"),Authorize]
+        public async Task<ActionResult<ServiceResponse<bool>>> StoreCartItems([FromBody] List<Order> item)
+        {
+          
+                var result = await _orderService.StoreCartItem(item);
+                return Ok(result);  
+         
+
+        }
     }
 }

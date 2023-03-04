@@ -7,5 +7,6 @@ namespace MulakatCalisma.Services.Abstract
     {
         Task<ServiceResponse<Order>> CreateOrder(Order order);
         Task<ServiceResponse<List<Order>>> GetProductByUser();
+        Task<ServiceResponse<List<Order>>> StoreCartItem(List<Order> order);
     }
 }
