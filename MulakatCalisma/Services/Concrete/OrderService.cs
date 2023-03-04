@@ -1,30 +1,22 @@
 ﻿using AutoMapper;
-using MailKit.Search;
 using Microsoft.AspNetCore.Identity.UI.Services;
-//using Castle.Core.Smtp;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MulakatCalisma.Context;
-using MulakatCalisma.DTO;
 using MulakatCalisma.Entity;
 using MulakatCalisma.Services.Abstract;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MulakatCalisma.Services.Concrete
 {
     public class OrderService : IOrderService
     {
         private readonly ApplicationDbContext _context;
-        private readonly IProductService _productService;
         private readonly IAuthService _authService;
-        private readonly IMapper _mapper;
         private readonly IEmailSender _mailSender;
         private readonly IBasketService _basketService;
-        public OrderService(ApplicationDbContext context, IEmailSender mailSender, IProductService productService, IAuthService authService, IMapper mapper, IBasketService basketService)
+        public OrderService(ApplicationDbContext context, IEmailSender mailSender, IAuthService authService, IMapper mapper, IBasketService basketService)
         {
             _mailSender = mailSender;
             _context = context;
-            _productService = productService;
             _authService = authService;
             _basketService=basketService;
         }

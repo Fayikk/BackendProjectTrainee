@@ -12,8 +12,8 @@ using MulakatCalisma.Context;
 namespace MulakatCalisma.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230304151107_a")]
-    partial class a
+    [Migration("20230304201120_Count")]
+    partial class Count
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -149,7 +149,10 @@ namespace MulakatCalisma.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Count")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
@@ -170,8 +173,6 @@ namespace MulakatCalisma.Migrations
                         .HasColumnType("Decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
                 });
@@ -206,18 +207,6 @@ namespace MulakatCalisma.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("MulakatCalisma.Entity.Product", b =>
-                {
-                    b.HasOne("MulakatCalisma.Entity.Category", null)
-                        .WithMany("Products")
-                        .HasForeignKey("CategoryId");
-                });
-
-            modelBuilder.Entity("MulakatCalisma.Entity.Category", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -59,6 +59,17 @@ namespace MulakatCalisma.Controllers
             return Ok(result);
         }
 
+        [HttpGet("ByCategory")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetProductByCategory(int categoryId)
+        {
+            var response = await _productService.GetProductByCategory(categoryId);
+            if (response == null)
+            {
+                return BadRequest(categoryId);
+            }
+            return Ok(response);
+        }
+
 
     }
 }

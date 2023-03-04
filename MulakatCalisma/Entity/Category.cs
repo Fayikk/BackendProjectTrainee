@@ -8,6 +8,6 @@ namespace MulakatCalisma.Entity
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string CategoryDescription { get; set; }
-        public List<Product> Products { get; set; } = new List<Product>();
+        //public List<Product> Products { get; set; } = new List<Product>();
     }
 }

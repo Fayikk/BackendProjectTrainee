@@ -40,7 +40,7 @@ namespace MulakatCalisma.Controllers
 
 
         [HttpPost("Store"),Authorize]
-        public async Task<ActionResult<ServiceResponse<bool>>> StoreCartItems([FromBody] List<Order> item)
+        public async Task<ActionResult<ServiceResponse<bool>>> StoreCartItems(List<Order> item)
         {
           
                 var result = await _orderService.StoreCartItem(item);

@@ -129,9 +129,40 @@ namespace MulakatCalisma.Services.Concrete
 
         }
 
-        public Task<ServiceResponse<ProductDTO>> AddImage(IFormFile file, string id)
+        public async Task<ServiceResponse<List<Product>>> GetProductByCategory(int categoryId)
         {
-            throw new NotImplementedException();
+            var response = await _context.Products.Where(x=>x.CategoryId== categoryId).ToListAsync();
+            if (response == null)
+            {
+                return new ServiceResponse<List<Product>>
+                {
+                    Message = "Product is not found this category",
+                    Success = false,
+                };
+            }
+            return new ServiceResponse<List<Product>>
+            {
+                Success = true,
+                Data = response,
+            };
+        }
+
+        public async Task<ServiceResponse<Product>> IncrementStar(int productId)
+        {
+            var response =await _context.Products.FirstOrDefaultAsync(x=>x.Id==productId);
+            if (response == null)
+            {
+                return new ServiceResponse<Product>
+                {
+                    Message = "Product is not found",
+                    Success = false,
+                };
+            }
+            response.Count += 1;
+            _context.Products.Update(response);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<Product> { Success = true, Data = response };
+
         }
     }
 }

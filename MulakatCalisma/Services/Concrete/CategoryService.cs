@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MulakatCalisma.Context;
 using MulakatCalisma.DTO;
 using MulakatCalisma.Entity;
@@ -30,5 +31,7 @@ namespace MulakatCalisma.Services.Concrete
             };
     
         }
+
+   
     }
 }

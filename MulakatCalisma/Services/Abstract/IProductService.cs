@@ -1,4 +1,5 @@
-﻿using MulakatCalisma.DTO;
+﻿using Microsoft.AspNetCore.Components.Forms;
+using MulakatCalisma.DTO;
 using MulakatCalisma.Entity;
 
 namespace MulakatCalisma.Services.Abstract
@@ -10,7 +11,8 @@ namespace MulakatCalisma.Services.Abstract
         Task<ServiceResponse<ProductDTO>> UpdateProduct(ProductDTO product);
         Task<ServiceResponse<IEnumerable<ProductDTO>>> GetAll();
         Task<ServiceResponse<ProductDTO>> GetProduct(string Name);
-        Task<ServiceResponse<ProductDTO>> AddImage(IFormFile file, string id);
+        Task<ServiceResponse<List<Product>>> GetProductByCategory(int categoryId);
+        Task<ServiceResponse<Product>> IncrementStar(int productId);
 
     }
 }
