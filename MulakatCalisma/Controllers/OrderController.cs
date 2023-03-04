@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MulakatCalisma.DTO;
 using MulakatCalisma.Entity;
@@ -30,10 +31,10 @@ namespace MulakatCalisma.Controllers
             return BadRequest("Ooops Fail");
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ServiceResponse<List<Order>>>> GetProductbyUser(int userId)
+        [HttpGet,Authorize]
+        public async Task<ActionResult<ServiceResponse<List<Order>>>> GetProductbyUser()
         {
-            var result = await _orderService.GetProductByUser(userId);
+            var result = await _orderService.GetProductByUser();
             return Ok(result);
         }
     }

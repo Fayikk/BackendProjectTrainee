@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MulakatCalisma.Context;
+using MulakatCalisma.Helper;
 using MulakatCalisma.Services.Abstract;
 using MulakatCalisma.Services.Concrete;
 
@@ -18,6 +20,9 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderService,OrderService>();   
 builder.Services.AddScoped<IAddressService,AddressService>();
+builder.Services.AddScoped<IPaymentService,PaymentService>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

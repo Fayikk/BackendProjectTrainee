@@ -10,5 +10,7 @@ namespace MulakatCalisma.Services.Abstract
         Task<ServiceResponse<ProductDTO>> UpdateProduct(ProductDTO product);
         Task<ServiceResponse<IEnumerable<ProductDTO>>> GetAll();
         Task<ServiceResponse<ProductDTO>> GetProduct(string Name);
+        Task<ServiceResponse<ProductDTO>> AddImage(IFormFile file, string id);
+
     }
 }

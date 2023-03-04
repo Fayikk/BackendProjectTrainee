@@ -61,5 +61,12 @@ namespace MulakatCalisma.Controllers
             }
 
         }
+
+        [HttpDelete,Authorize]
+        public async Task<ActionResult<ServiceResponse<bool>>> DeleteUser(string password)
+        {
+            var result = await _authService.DeleteAccount(password);
+            return Ok(result);
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity.UI.Services;
+//using Castle.Core.Smtp;
 using Microsoft.EntityFrameworkCore;
 using MulakatCalisma.Context;
 using MulakatCalisma.DTO;
@@ -13,8 +15,10 @@ namespace MulakatCalisma.Services.Concrete
         private readonly IProductService _productService;
         private readonly IAuthService _authService;
         private readonly IMapper _mapper;
-        public OrderService(ApplicationDbContext context, IProductService productService, IAuthService authService, IMapper mapper)
+        private readonly IEmailSender _mailSender;
+        public OrderService(ApplicationDbContext context,IEmailSender mailSender, IProductService productService, IAuthService authService, IMapper mapper)
         {
+            _mailSender = mailSender; 
             _context = context;
             _productService = productService;
             _authService = authService;
@@ -34,14 +38,18 @@ namespace MulakatCalisma.Services.Concrete
             }
             else if (user != null && product != null)
             {
-                //var obj = _mapper.Map<OrderDTO, Order>(order);
+                order.ProductName=product.Name;
+                order.ProductPrice=product.Price;
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
+                await _mailSender.SendEmailAsync(user.Email, "Assos Your Order Confirmation:", user.Role);
+
                 return new ServiceResponse<Order>
                 {
                     Message = "Order Succesfully",
                     Success = true,
                 };
+
             }
             return new ServiceResponse<Order>
             {
@@ -49,9 +57,9 @@ namespace MulakatCalisma.Services.Concrete
             };
         }
 
-        public async Task<ServiceResponse<List<Order>>> GetProductByUser(int userId)
+        public async Task<ServiceResponse<List<Order>>> GetProductByUser()
         {
-            var response = await _context.Orders.Where(x=>x.UserId== userId).ToListAsync(); 
+            var response = await _context.Orders.Where(x=>x.UserId== _authService.GetUserId()).ToListAsync(); 
             if (response != null)
             {
                 return new ServiceResponse<List<Order>>

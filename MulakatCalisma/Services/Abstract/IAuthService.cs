@@ -13,5 +13,6 @@ namespace MulakatCalisma.Services.Abstract
         string GetUserEmail();
         Task<User> GetUserByEmail(string email);
         Task<ServiceResponse<bool>> RoleForAdmin(string email);
+        Task<ServiceResponse<bool>> DeleteAccount(string password);
     }
 }

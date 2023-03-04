@@ -128,5 +128,10 @@ namespace MulakatCalisma.Services.Concrete
             };
 
         }
+
+        public Task<ServiceResponse<ProductDTO>> AddImage(IFormFile file, string id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

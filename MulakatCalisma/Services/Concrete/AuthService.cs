@@ -40,14 +40,14 @@ namespace MulakatCalisma.Services.Concrete
                     new ServiceResponse<bool>
                     {
                         Message = "Your current password is not match",
-                        Success=false
+                        Success = false
                     };
                 }
                 else
                 {
                     CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
-                    response.PasswordHash=passwordHash;
-                    response.PasswordSalt=passwordSalt;
+                    response.PasswordHash = passwordHash;
+                    response.PasswordSalt = passwordSalt;
                     await _context.SaveChangesAsync();
                     return new ServiceResponse<bool> { Success = true };
 
@@ -169,7 +169,7 @@ namespace MulakatCalisma.Services.Concrete
         public async Task<ServiceResponse<bool>> RoleForAdmin(string email)
         {
             var result = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
-            if (result==null)
+            if (result == null)
             {
                 return new ServiceResponse<bool>
                 {
@@ -186,6 +186,41 @@ namespace MulakatCalisma.Services.Concrete
                     Success = false,
                 };
             }
+
+        }
+
+        public async Task<ServiceResponse<bool>> DeleteAccount(string password)
+        {
+
+            var result = GetUserId();
+            var response = await _context.Users.FirstOrDefaultAsync(x => x.Id == result);
+
+            if (response == null)
+            {
+                return new ServiceResponse<bool>
+                {
+                    Success = false,
+
+                };
+            }
+            if (!VerifyPasswordHash(password, response.PasswordHash, response.PasswordSalt))
+            {
+                return new ServiceResponse<bool>
+                {
+                    Success = false,
+                    Message = "Password is not true",
+                };
+            }
+
+            _context.Users.Remove(response);
+            await _context.SaveChangesAsync();
+            return new ServiceResponse<bool>
+            {
+                Success = true,
+                Message = "Account Removed",
+            };
+
+
 
         }
     }
