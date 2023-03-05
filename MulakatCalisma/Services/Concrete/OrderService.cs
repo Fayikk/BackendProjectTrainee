@@ -47,7 +47,6 @@ namespace MulakatCalisma.Services.Concrete
                 order.ProductPrice = product.Price;
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
-                await _mailSender.SendEmailAsync(user.Email, "Assos Your Order Confirmation:", user.Role);
 
                 return new ServiceResponse<Order>
                 {
@@ -109,6 +108,7 @@ namespace MulakatCalisma.Services.Concrete
             var result = await _context.Baskets.Where(x => x.UserId == _authService.GetUserId()).ToListAsync();
             var user = _authService.GetUserId();
             var checkMoney = await _context.UserMoneys.FirstOrDefaultAsync(x => x.UserId == user);
+            var User = await _context.Users.FirstOrDefaultAsync(x => x.Id == user);
             decimal count = 0;
             if (result == null)
             {
@@ -148,6 +148,8 @@ namespace MulakatCalisma.Services.Concrete
             _context.Orders.AddRange(order);
             await _userMoneyService.DeleteMoney(count);
             await _context.SaveChangesAsync();
+            await _mailSender.SendEmailAsync(User.Email, "Assos Your Order Confirmation:", User.Role);
+
             return new ServiceResponse<List<Order>>
             {
                 Success = true,

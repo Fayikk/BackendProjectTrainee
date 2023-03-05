@@ -16,11 +16,6 @@ namespace MulakatCalisma.Helper
         {
             try
             {
-                //var client = new SendGridClient(SendGridSecret);
-                //var from = new EmailAddress("Assos@dotnetmaster.com", "Assos");
-                //var to = new EmailAddress(email);
-                //var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
-                //await client.SendEmailAsync(msg);
                 var emailToSend = new MimeMessage();
                 emailToSend.From.Add(MailboxAddress.Parse("Assos@dotnetmaster.com"));
                 emailToSend.To.Add(MailboxAddress.Parse(email));
