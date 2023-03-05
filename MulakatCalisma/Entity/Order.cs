@@ -13,5 +13,7 @@ namespace MulakatCalisma.Entity
         public string ProductName { get; set; }
         [Column(TypeName = "Decimal(18,2)")]
         public decimal ProductPrice { get; set; }
+        public bool Status { get; set; }
+        public decimal TotalPrice { get; set; } 
     }
 }

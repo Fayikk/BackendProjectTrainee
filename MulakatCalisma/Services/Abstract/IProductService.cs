@@ -13,6 +13,7 @@ namespace MulakatCalisma.Services.Abstract
         Task<ServiceResponse<ProductDTO>> GetProduct(string Name);
         Task<ServiceResponse<List<Product>>> GetProductByCategory(int categoryId);
         Task<ServiceResponse<Product>> IncrementStar(int productId);
+        Task<ServiceResponse<List<Product>>> GetProducts();
 
     }
 }

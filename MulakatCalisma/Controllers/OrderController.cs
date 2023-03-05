@@ -22,7 +22,7 @@ namespace MulakatCalisma.Controllers
         {
 
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (user!=null)
+            if (user != null)
             {
                 order.UserId = int.Parse(user);
                 var result = await _orderService.CreateOrder(order);
@@ -31,7 +31,7 @@ namespace MulakatCalisma.Controllers
             return BadRequest("Ooops Fail");
         }
 
-        [HttpGet,Authorize]
+        [HttpGet, Authorize]
         public async Task<ActionResult<ServiceResponse<List<Order>>>> GetProductbyUser()
         {
             var result = await _orderService.GetProductByUser();
@@ -39,14 +39,21 @@ namespace MulakatCalisma.Controllers
         }
 
 
-        [HttpPost("Store"),Authorize]
+        [HttpPost("Store"), Authorize]
         public async Task<ActionResult<ServiceResponse<bool>>> StoreCartItems(List<Order> item)
         {
-          
-                var result = await _orderService.StoreCartItem(item);
-                return Ok(result);  
-         
 
+            var result = await _orderService.StoreCartItem(item);
+            return Ok(result);
+
+
+        }
+
+        [HttpPost("{id}"), Authorize]
+        public async Task<ActionResult<ServiceResponse<bool>>> RefundProduct([FromRoute] int id)
+        {
+            var result = await _orderService.Refund(id);
+            return Ok(result);
         }
     }
 }

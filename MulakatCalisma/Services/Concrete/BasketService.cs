@@ -24,7 +24,7 @@ namespace MulakatCalisma.Services.Concrete
                 return new ServiceResponse<Basket>
                 {
                     Success = false,
-                    Message = "This procesc is fail",
+                    Message = "This process is fail",
                 };
             }
             else if(product != null && userId != null)
@@ -33,8 +33,9 @@ namespace MulakatCalisma.Services.Concrete
                 basket.ProductName=product.Name;
                 basket.Price=product.Price;
                 basket.UserId = userId;
+                basket.TotalPrice = product.Price * basket. Quantity;
                 _context.Baskets.Add(basket);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
                 return new ServiceResponse<Basket>
                 {
                     Data = basket,

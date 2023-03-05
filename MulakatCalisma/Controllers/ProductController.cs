@@ -70,6 +70,13 @@ namespace MulakatCalisma.Controllers
             return Ok(response);
         }
 
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAll()
+        {
+            var result = await _productService.GetAll();
+            return Ok(result);
+        }
+
 
     }
 }

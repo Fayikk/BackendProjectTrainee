@@ -16,6 +16,6 @@ namespace MulakatCalisma.Context
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<Star> Stars { get; set; }  
-
+        public DbSet<UserMoney> UserMoneys { get; set; }
     }
 }

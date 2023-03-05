@@ -12,8 +12,8 @@ using MulakatCalisma.Context;
 namespace MulakatCalisma.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230304202819_Stars")]
-    partial class Stars
+    [Migration("20230305114359_OrderStatus")]
+    partial class OrderStatus
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,12 @@ namespace MulakatCalisma.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("Decimal(18,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -133,6 +139,9 @@ namespace MulakatCalisma.Migrations
                     b.Property<decimal>("ProductPrice")
                         .HasColumnType("Decimal(18,2)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -152,9 +161,6 @@ namespace MulakatCalisma.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -164,6 +170,9 @@ namespace MulakatCalisma.Migrations
 
                     b.Property<Guid>("Image")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -230,6 +239,25 @@ namespace MulakatCalisma.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MulakatCalisma.Entity.UserMoney", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Money")
+                        .HasColumnType("Decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserMoneys");
                 });
 #pragma warning restore 612, 618
         }

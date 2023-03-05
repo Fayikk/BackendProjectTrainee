@@ -12,7 +12,7 @@ namespace MulakatCalisma.Services.Concrete
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        public ProductService(IMapper mapper,ApplicationDbContext context)
+        public ProductService(IMapper mapper, ApplicationDbContext context)
         {
             _context = context;
             _mapper = mapper;
@@ -48,7 +48,7 @@ namespace MulakatCalisma.Services.Concrete
 
         public async Task<ServiceResponse<int>> DeleteProduct(ProductDTO product)
         {
-            var result = await _context.Products.FirstOrDefaultAsync(x=>x.Id==product.Id);
+            var result = await _context.Products.FirstOrDefaultAsync(x => x.Id == product.Id);
             //_mapper.Map<Product, ProductDTO>(result);
             if (result == null)
             {
@@ -72,7 +72,7 @@ namespace MulakatCalisma.Services.Concrete
 
         }
 
- 
+
         public async Task<ServiceResponse<ProductDTO>> GetProduct(string Name)
         {
             var result = await _context.Products.FirstOrDefaultAsync(x => x.Name.ToLower().Equals(Name.ToLower()));
@@ -90,7 +90,7 @@ namespace MulakatCalisma.Services.Concrete
             {
                 Data = response,
             };
-            
+
         }
 
         public async Task<ServiceResponse<ProductDTO>> UpdateProduct(ProductDTO product)
@@ -131,7 +131,7 @@ namespace MulakatCalisma.Services.Concrete
 
         public async Task<ServiceResponse<List<Product>>> GetProductByCategory(int categoryId)
         {
-            var response = await _context.Products.Where(x=>x.CategoryId== categoryId).ToListAsync();
+            var response = await _context.Products.Where(x => x.CategoryId == categoryId).ToListAsync();
             if (response == null)
             {
                 return new ServiceResponse<List<Product>>
@@ -149,7 +149,7 @@ namespace MulakatCalisma.Services.Concrete
 
         public async Task<ServiceResponse<Product>> IncrementStar(int productId)
         {
-            var response =await _context.Products.FirstOrDefaultAsync(x=>x.Id==productId);
+            var response = await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
             if (response == null)
             {
                 return new ServiceResponse<Product>
@@ -158,11 +158,34 @@ namespace MulakatCalisma.Services.Concrete
                     Success = false,
                 };
             }
-            response.Count += 1;
+            response.Like += 1;
             _context.Products.Update(response);
             await _context.SaveChangesAsync();
             return new ServiceResponse<Product> { Success = true, Data = response };
 
+        }
+
+        public async Task<ServiceResponse<List<Product>>> GetProducts()
+        {
+
+            var response = await _context.Products.ToListAsync();
+
+            if (response == null)
+            {
+                return new ServiceResponse<List<Product>>
+                {
+                    Success = false,
+                    Message = "Product is not found",
+                };
+            }
+            else
+            {
+                return new ServiceResponse<List<Product>>
+                {
+                    Success = true,
+                    Data = response,
+                };
+            }
         }
     }
 }

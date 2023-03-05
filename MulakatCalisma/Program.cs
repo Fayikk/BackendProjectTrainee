@@ -24,7 +24,8 @@ builder.Services.AddScoped<IPaymentService,PaymentService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IBasketService,BasketService>();
 builder.Services.AddScoped<IStarService, StarService>();
-
+builder.Services.AddScoped<IStarService, StarService>();
+builder.Services.AddScoped<IUserMoneyService, UserMoneyService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

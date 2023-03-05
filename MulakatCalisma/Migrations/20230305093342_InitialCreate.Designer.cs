@@ -12,8 +12,8 @@ using MulakatCalisma.Context;
 namespace MulakatCalisma.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230304201120_Count")]
-    partial class Count
+    [Migration("20230305093342_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,6 +41,12 @@ namespace MulakatCalisma.Migrations
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("Decimal(18,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -152,9 +158,6 @@ namespace MulakatCalisma.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -164,6 +167,9 @@ namespace MulakatCalisma.Migrations
 
                     b.Property<Guid>("Image")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -175,6 +181,29 @@ namespace MulakatCalisma.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("MulakatCalisma.Entity.Star", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stars");
                 });
 
             modelBuilder.Entity("MulakatCalisma.Entity.User", b =>
@@ -207,6 +236,25 @@ namespace MulakatCalisma.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MulakatCalisma.Entity.UserMoney", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Money")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserMoneys");
                 });
 #pragma warning restore 612, 618
         }
