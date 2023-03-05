@@ -14,6 +14,7 @@ namespace MulakatCalisma.Entity
         public Guid Image { get; set; }=Guid.NewGuid();
         public int CategoryId { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public int Like { get; set; }  
+        public int Like { get; set; }
+  
     }
 }

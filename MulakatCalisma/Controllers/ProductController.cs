@@ -71,12 +71,26 @@ namespace MulakatCalisma.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAll()
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetAll(int page=1)
         {
-            var result = await _productService.GetAll();
+            var result = await _productService.GetProducts(page);
             return Ok(result);
         }
 
+
+        //[HttpGet("search/{searchText}/{page}")]
+        //public async Task<ActionResult<ServiceResponse<ProductSearchResult>>> SearchProducts(string searchText, int page = 1)
+        //{
+        //    var result = await _productService.SearchProducts(searchText, page);
+        //    return Ok(result);
+        //}
+
+        [HttpGet("Search")]
+        public async Task<ActionResult<ServiceResponse<List<Product>>>> GetSearchProducts(string searchText)
+        {
+            var result = await _productService.SearchProducts(searchText);
+            return Ok(result);
+        }
 
     }
 }

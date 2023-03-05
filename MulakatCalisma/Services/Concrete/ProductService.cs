@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using MailKit.Search;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MulakatCalisma.Context;
 using MulakatCalisma.DTO;
 using MulakatCalisma.Entity;
 using MulakatCalisma.Services.Abstract;
+using System.Reflection.Metadata.Ecma335;
 
 namespace MulakatCalisma.Services.Concrete
 {
@@ -165,27 +167,40 @@ namespace MulakatCalisma.Services.Concrete
 
         }
 
-        public async Task<ServiceResponse<List<Product>>> GetProducts()
+        public async Task<ServiceResponse<ProductSearchResult>> GetProducts(int page)
         {
-
-            var response = await _context.Products.ToListAsync();
-
-            if (response == null)
+            var pageResults = 3f;
+            var result = await _context.Products.ToListAsync();
+            var pageCount = Math.Ceiling((result).Count / pageResults);
+            var products = await _context.Products.Skip((page - 1) * (int)pageResults).Take((int)pageResults).ToListAsync();
+            var response = new ServiceResponse<ProductSearchResult>
             {
-                return new ServiceResponse<List<Product>>
+                Data = new ProductSearchResult
                 {
-                    Success = false,
-                    Message = "Product is not found",
-                };
-            }
-            else
+                    Products= products,
+                    CurrentPage = page,
+                    Pages = (int)pageCount,
+                }
+            };
+            return response;
+
+        }
+
+     
+
+       
+
+        public async Task<ServiceResponse<List<Product>>> SearchProducts(string searchText)
+        {
+            var result = await _context.Products.Where(x => x.Name.ToLower().Contains(searchText.ToLower()) 
+                                                || x.Description.ToLower().Contains(searchText.ToLower())).OrderByDescending(x=>x.Price).ToListAsync();
+
+            var response = new ServiceResponse<List<Product>>
             {
-                return new ServiceResponse<List<Product>>
-                {
-                    Success = true,
-                    Data = response,
-                };
-            }
+                Data = result,
+
+            };
+            return response;
         }
     }
 }
