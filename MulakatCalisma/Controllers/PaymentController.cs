@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MulakatCalisma.Services.Abstract;
+using MulakatCalisma.Helper;
 
 namespace MulakatCalisma.Controllers
 {
@@ -9,17 +9,31 @@ namespace MulakatCalisma.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private readonly IPaymentService _paymentService;
-        public PaymentController(IPaymentService paymentService)
+        private readonly ISample _sample;
+        public PaymentController(ISample sample)
         {
-            _paymentService = paymentService;
+            _sample = sample;
         }
 
-        [HttpPost("checkout"), Authorize]
-        public async Task<ActionResult<string>> CreateCheckout()
+        //Sample sample = new Sample();
+        //API api = new API();
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Checkout()
         {
-            var result = await _paymentService.CreateCheckoutSession();
-            return Ok(result.Url);
+            var result = _sample.Should_Create_Payment();
+            return Ok(result);
         }
+
+        [HttpPost("Cancel")]
+        [Authorize]
+        public IActionResult Cancel()
+        {
+            var result = _sample.Cancel_Refund();
+            return Ok(result);
+        }
+      
+
     }
 }

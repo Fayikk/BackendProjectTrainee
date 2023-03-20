@@ -20,12 +20,12 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderService,OrderService>();   
 builder.Services.AddScoped<IAddressService,AddressService>();
-builder.Services.AddScoped<IPaymentService,PaymentService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IBasketService,BasketService>();
 builder.Services.AddScoped<IStarService, StarService>();
 builder.Services.AddScoped<IStarService, StarService>();
 builder.Services.AddScoped<IUserMoneyService, UserMoneyService>();
+builder.Services.AddScoped<ISample, Sample>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
