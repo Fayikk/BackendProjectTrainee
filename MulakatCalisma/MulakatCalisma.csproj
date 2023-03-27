@@ -10,6 +10,7 @@
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Castle.Core" Version="5.1.1" />
+    <PackageReference Include="CloudinaryDotNet" Version="1.20.0" />
     <PackageReference Include="FluentValidation" Version="11.5.1" />
     <PackageReference Include="Iyzipay" Version="2.1.55" />
     <PackageReference Include="MailKit" Version="3.5.0" />

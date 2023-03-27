@@ -1,15 +1,32 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MulakatCalisma.CloudSystem;
 using MulakatCalisma.Context;
 using MulakatCalisma.Helper;
+using MulakatCalisma.Middleware;
 using MulakatCalisma.Services.Abstract;
 using MulakatCalisma.Services.Concrete;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(5);
+});
+
+
+//builder.WebHost.UseKestrel(options =>
+//{
+//    options.Limits.MaxConcurrentConnections = 100;
+//    options.Limits.KeepAliveTimeout = TimeSpan.FromSeconds(5);
+//    options.Limits.RequestHeadersTimeout =
+//       TimeSpan.FromSeconds(5);
+//});
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -26,6 +43,8 @@ builder.Services.AddScoped<IStarService, StarService>();
 builder.Services.AddScoped<IStarService, StarService>();
 builder.Services.AddScoped<IUserMoneyService, UserMoneyService>();
 builder.Services.AddScoped<ISample, Sample>();
+builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -78,7 +97,10 @@ builder.Services.AddCors(o => o.AddPolicy("Assos", builder =>
     builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
 }));
 
-
+//builder.Services.AddHttpClient("myClient", client =>
+//{
+//    client.Timeout = TimeSpan.FromSeconds(5);
+//});
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 

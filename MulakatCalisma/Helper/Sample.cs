@@ -52,7 +52,7 @@ namespace MulakatCalisma.Helper
             request.Locale = Locale.TR.ToString();
             request.ConversationId = "123456788";
             request.Price = "1";
-            request.PaidPrice = TotalPrices;
+            request.PaidPrice = "149000.0";
             request.Currency = Currency.TRY.ToString();
             request.Installment = 1;
             request.BasketId = "B67832";
